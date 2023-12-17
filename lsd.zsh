@@ -1,0 +1,11 @@
+#------lsd------#
+alias l='lsd -1 --git'
+alias ls='lsd --git'
+#alias lsd='lsd -d git'
+alias ll='lsd -1 --git'
+alias la='lsd --git -a'
+#alias ls='lsd --sd'
+#alias lr='lsd -r'
+alias tree='lsd --tree --git' 
+alias lgit='lsd --gs'
+alias lgt='lsd --gs -t'
