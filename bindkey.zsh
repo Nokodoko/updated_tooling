@@ -1,16 +1,20 @@
 apps () {
 	pushd ~/codebase/
-	nvim $(fd -tf --full-path ~/codebase/ | fzf --layout reverse --border --border-label='Codebase' --previekeybindsw 'bat --style=numbers --color=always --line-range :500 {}')
+  nvim $(fd -tf --full-path ~/codebase/ | flist 'Codebase')
 }
 
-config () {
-	pushd ~/.config
-	nvim $(fd -tf -H | fzf --layout reverse --border --border-label='Configurations' --preview 'bat --style=numbers --color=always --line-range :500 {}')
+rag() { /rag        [1/4]
+    zellij run --floating --close-on-exit -- rag.lua
 }
 
-exconf () {
-	nvim ~/.zsh/exports/$(cd ~/.zsh/exports && fd -tf |\
-        fzf --layout reverse --border --border-label='Export Configurations' --preview 'bat --style=numbers --color=always --line-range :500 {}')
+#PROGRAMMING KEYS
+program () {
+	pushd ~/Programs
+	cd $(fd -td -d1 | flist )
+
+
+	CURSOR=$#BUFFER 
+	zle accept-line 2> /dev/null
 }
 
 luap () {
@@ -18,22 +22,10 @@ luap () {
 	nvim $(fd -e lua | flist 'Lua Programs')
 }
 
-rag() { /rag        [1/4]
-    zellij run --floating --close-on-exit -- rag.lua
+pyap () {
+	pushd /home/n0ko/programming/python_projects//
+	nvim $(fd -e py | flist 'Python Programs')
 }
-
-plug () {
-	pushd ~/.local/share/nvim/lazy/ && c $(fd -td -d1 |fzf --layout reverse --border --border-label='Neovim Plugins' --preview 'bat --style=numbers --color=always --line-range :500 {}')
-}
-
-program () {
-	pushd ~/Programs
-	cd $(fd -td -d1 | fzf --layout reverse --border --border-label='Programs' --preview 'bat --style=numbers --color=always --line-range :500 {}')
-
-	CURSOR=$#BUFFER 
-	zle accept-line 2> /dev/null
-}
-
 rusty () {
 	pushd ~/programming/rusticean
 	nvim $(fd -e rs | flist "RUSTY")
@@ -44,6 +36,21 @@ spell () {
 	nvim $(fd -tf | flist 'Spells')
 }
 
+
+#CONFIG_KEYS
+config () {
+	pushd ~/.config
+	nvim $(fd -tf -H | flist 'Configurations')
+}
+
+exconf () {
+	nvim ~/.zsh/exports/$(cd ~/.zsh/exports && fd -tf | flist 'Export Configurations')
+}
+
+plug () {
+	pushd ~/.local/share/nvim/lazy/ && c $(fd -td -d1 |flist 'Neovim Plugins')
+}
+
 vconf () {
 	pushd ~/.config/nvim
 	nvim $(fd -e lua | flist 'Neovim Configurations')
@@ -51,29 +58,62 @@ vconf () {
 
 zconf () {
 	nvim ~/.zsh/tooling/$(cd ~/.zsh/tooling && fd -tf |\
-        fzf --layout reverse --border --border-label='Zsh Configurations' --preview 'bat --style=numbers --color=always --line-range :500 {}')
+        flist )
 }
-#zle -N apps
-zle -N config
-zle -N exconf
-zle -N luap
-zle -N plug
-zle -N program
-#zle -N rusty
-zle -N rag
-zle -N spell
-zle -N vconf
-zle -N zconf
 
+#SSH KEYS
+m1_ssh() {
+    zellij run --floating --close-on-exit -- ssh n0ko@m1
+}
 
-#bindkey '' apps
-bindkey '^F' config
-bindkey '^J' rag
-bindkey '^X' exconf
-bindkey '^Y' luap
-bindkey '^P' plug
-bindkey '^O' program
-#bindkey '' rusty
-bindkey '^E' spell
-bindkey '^V' vconf
-bindkey '^Z' zconf
+charlie_ssh() {
+    zellij run --floating --close-on-exit -- ssh n0ko@charlie
+}
+
+function leader_programming() {
+    local key
+    read -sk 1 key
+    case $key in
+        (p) pyap ;;
+        (l) luap ;;
+        (r) rusty ;;
+        (s) spell ;;
+    esac
+}
+
+function leader_ssh() {
+    local key
+    read -sk 1 key
+    case $key in
+        (m) m1_ssh ;;
+        (c) charlie_ssh ;;
+    esac
+}
+
+function leader_config() {
+    local key
+    read -sk 1 key
+    case $key in
+        (x) exconf ;;
+        (c) config ;;
+        (p) plug ;;
+        (v) vconf ;;
+        (z) zconf ;;
+    esac
+}
+
+function leader_key() {
+    local key
+    read -sk 1 key
+    case $key in
+        (c) leader_config ;;
+        (p) leader_programming ;;
+        (r) rag ;;
+        (s) leader_ssh;;
+        (o) program ;;
+    esac
+}
+
+zle -N leader_key
+
+bindkey '^@' leader_key
