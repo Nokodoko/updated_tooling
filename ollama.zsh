@@ -1,0 +1,6 @@
+alias olc='ollama run codellama:latest'
+alias ol13='ollama run llama2:13b'
+alias ol70='ollama run llama2:70b'
+alias ol7='ollama run llama2:7b'
+alias oll='ollama run llama2:latest'
+alias olu='ollama run llama2-uncensored:latest'

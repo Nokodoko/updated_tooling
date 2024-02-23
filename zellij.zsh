@@ -3,6 +3,7 @@ alias zel='zellij'
 alias zll='zellij ls'
 alias zlls='zellij list-sessions'
 alias zka='zellij kill-all-sessions -y'
+alias zda='zellij delete-all-sessions -y'
 
 zks(){
     zellij kill-session $1

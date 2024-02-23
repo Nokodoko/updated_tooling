@@ -32,14 +32,6 @@ alias forest='cl ~/forest/'
 alias arch='c /usr/share/doc/arch-wiki/html/en/'
 #alias spell='c ~/scripts'
 
-function spell() {
-    pushd ~/scripts && vf
-    #v ~/scripts/$(c ~/scripts/ | awk '{print $3}' | f)
-}
-
-function rusty() {
-    v ~/programming/rust$(cd ~/programming/rust && fd -e rs | fzf --layout reverse --border --border-label='RUSTY' --preview 'bat --style=numbers --color=always --line-range :500 {}')
-}
 #dunst
 alias dmagic='c ~/scripts/dunstMagic/'
 

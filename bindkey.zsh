@@ -23,19 +23,24 @@ luap () {
 }
 
 pyap () {
-	pushd /home/n0ko/programming/python_projects//
+	pushd /home/n0ko/programming/python_projects/
 	nvim $(fd -e py | flist 'Python Programs')
 }
+
 rusty () {
-	pushd ~/programming/rusticean
-	nvim $(fd -e rs | flist "RUSTY")
+	pushd ~/programming/rust_projects/
+	nvim $(fd -e rs | flist "Rust Programs")
 }
 
 spell () {
-	pushd ~/scripts
-	nvim $(fd -tf | flist 'Spells')
+  pushd ~/scripts/
+	nvim $(fd -tf | flist "Spells")
 }
 
+stats () {
+  pushd ~/stats/
+	nvim $(fd -tf | flist "Statistics")
+}
 
 #CONFIG_KEYS
 config () {
@@ -78,6 +83,7 @@ function leader_programming() {
         (l) luap ;;
         (r) rusty ;;
         (s) spell ;;
+        (t) stats ;;
     esac
 }
 

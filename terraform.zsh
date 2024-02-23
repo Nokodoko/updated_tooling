@@ -8,6 +8,7 @@ alias tfp='TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform plan'
 alias tfa='TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform apply'
 alias tfaa='TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform apply -auto-approve'
 alias tfd='TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform destroy'
+alias tfo='terraform output'
 #alias tfsl='TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform state list'
 alias tfsl='terraform state list'
 
