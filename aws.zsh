@@ -22,11 +22,19 @@ alias lsec2c='awsc ec2 describe-instances --filters "Name=instance-type,Values=t
 alias lsec2='aws ec2 describe-instances --filters "Name=instance-type,Values=t2.micro" --query "Reservations[].Instances[].InstanceId"'
 
 function ec2() {
-    aws ec2 describe-instances | gp -B110 -i $1
+    aws ec2 describe-instances | jq '.Reservations[]|.Instances[]|.InstanceId' | sed 's/"//g'
+}
+
+function ec2meta() {
+	aws ec2 describe-instances | jq -c '{state: .Reservations[]|.Instances[]|.State.Name, id: .Reservations[]|.Instances[]|.InstanceId}' | sort | uniq
+}
+
+function ec2name() {
+    aws ec2 describe-instances | jq '.Reservations[]|.Instances[]|.Name' | sed 's/"//g'
 }
 
 function ec2ip() {
-    aws ec2 describe-instances | gp -B110 -i $1 | gp -i ip
+    aws ec2 describe-instances | jq '.Reservations[]|.Instances[]|.PublicIpAddress' | sed 's/"//g;/^null/d'
 }
 #list ami-IDs (unfinished!!)
 function lsami() {

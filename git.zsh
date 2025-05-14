@@ -6,8 +6,9 @@ alias gtag='git tag'
 alias glog="git log --graph --abbrev-commit --decorate --format=format:'%C(bold green)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold yellow)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 alias gc='git clone'
 alias gsv='git status -vvv'
-alias gI='gitInit'
+alias gis='gitInitSbe'
 alias gi='gitinit'
+alias gie='gitInitEcco'
 alias gcom='git commit -m'
 alias gcomx='git commit -am'
 #alias gd='git difftool'
@@ -17,7 +18,7 @@ alias gs='git status'
 alias gstatf='git status | fzf'
 alias gadd='git add'
 alias ga='git add --all'
-alias gl='git log'
+alias gl='glab'
 #alias gpush='git push --set-upstream origin'
 alias gcout='git checkout'
 alias gcheck='git checkout -b'
@@ -33,7 +34,7 @@ alias g='gh'
 #------FUNCTIONS------#
 function flisty() {
     ARG=$@ 
-    fzf --reverse --border --border-label="$ARG"
+    fzf --border --border-label="$ARG"
 }
 function gdel() {
     git branch -D $(git branch | $(flisty "Delete Branch"))
@@ -66,3 +67,30 @@ function grcp() {
 function grcP() {
     gh repo create $1 --private --clone
 }
+
+
+function gsearch() {
+ gh api graphql -f query="
+ {
+   search(query: \"$1\", type: REPOSITORY, first: 10) {
+     nodes {
+       ... on Repository {
+         nameWithOwner
+         description
+         url
+       }
+     }
+   }
+ }" | jq '.data.search.nodes[]|.url' | flisty "GIT SEARCH FOR $1" | sed 's/"//g'
+}
+
+
+function gcs(){
+  git clone $(gsearch $1)
+}
+
+
+function ghi (){
+gh issue view $(gh issue list | fzf | awk '{print $1}') --comments
+}
+

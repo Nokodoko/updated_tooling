@@ -1,7 +1,7 @@
 #------PACMAN------#
 alias build='pacman -U'
 alias remove='sudo pacman -Rns'
-alias update='sudo pacman -Syu'
+alias update='sudo pacman -Syu && /home/n0ko/programming/lua_projects//gitup.lua ~/Programs/'
 alias build='sudo pacman -U'
 alias orphan='sudo pacman -Qtdq | pacman -Rns -'
 alias search='sudo pacman -Q'

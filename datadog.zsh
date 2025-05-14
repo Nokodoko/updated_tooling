@@ -1,0 +1,1 @@
+alias dda='datadog-agent'

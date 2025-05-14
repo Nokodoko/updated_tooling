@@ -7,3 +7,7 @@ cl () {
 	cd $1
 	lsd
 }
+
+gup(){
+  gitup.lua ~/Programs/
+}

@@ -47,6 +47,7 @@ alias vr='virsh'
 alias w='which'
 alias y='ytfzf -t'
 alias yv='youtube-viewer'
+alias crkbd='sudo kmonad ~/.config/kmonad/crkbd.kbd & disown'
 
 #-----PROGRAMS-----#
 
@@ -100,7 +101,14 @@ function vf() {
     v $(flist $( basename $( pwd )))
 }
 
+function svf() {
+    sudo nvim $(flist $( basename $( pwd )))
+}
+
 function cfd() {
     c $(fd -td $1)
 }
 
+function path () {
+  echo -e ${PATH//:/\\n}
+}

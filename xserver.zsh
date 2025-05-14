@@ -1,5 +1,5 @@
 #------COMPOSITOR------#
-alias pi='v ~/.config/.picom.conf'
+# alias pi='v ~/.config/.picom.conf'
 
 #-----Xresources-----#
 alias xre='v ~/.Xresources'
@@ -7,6 +7,8 @@ alias change='xrdb ~/.Xresources'
 
 #-----Start Xserver Plus keyboard-----#
 alias sx='startx'
+alias sx4='startx ~/.xinit4k'
+alias sx0='startx ~/.xinit4k'
 
 alias ssx='~/scripts/startX.sh'
 
