@@ -23,6 +23,8 @@ alias gback='sudo downgrade glib2=2.74.6'
 alias gp='rg'
 alias gr='geo-recon.py'
 alias gscan='sudo goscan'
+alias hb='~/scripts/hb.sh'
+alias lb='~/scripts/lb.sh'
 alias ipe='ip netns exec'
 alias k='kubectl'
 alias lj='v ~/.config/lynx/jumpsUnix.html'
@@ -60,11 +62,11 @@ alias makeit='makepkg -si'
 alias smci='sudo make clean install -j$(nproc)'
 
 #------FUNCTION------#
-function c(){
-    cd $1 
-    nvim $(lister.sh)
-    #colorls --git-status
-}
+# function c(){
+#     cd $1 
+#     nvim $(lister.sh)
+#     #colorls --git-status
+# }
 
 function man() {
   /usr/bin/man $* | \

@@ -20,6 +20,6 @@ function rev(){
     c /var/cache/pacman/pkg/ 
 }
 
-add() {
-	sudo pacman -S $@
+fucntion add(){
+	sudo pacman -S "$@"
 }

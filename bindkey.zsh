@@ -8,6 +8,7 @@ aws_jump () {
   nvim $(fd -tf  | flist 'n0ko AWS Terraform')
 }
 
+
 rag() { #rag        [1/4]
     zellij run --floating --close-on-exit -- rag.lua
 }
@@ -19,6 +20,36 @@ wall() { #wallpaper
 nvim_update() { #wallpaper
     zellij run --floating --close-on-exit -- ~/scripts/nvim_update.py
 }
+
+# DATADOG
+ddog-conf-edit () {
+	pushd /etc/datadog-agent/conf.d/
+  sudo nvim $(fd -tf -e yaml -e yml -e example| flist_noprev 'Datadog Configurations')
+}
+
+ddog-core-conf-edit () {
+	pushd /home/n0ko/Programs/integrations-core/
+  sudo nvim $(fd -tf -e yaml -e yml -e example | flist_noprev 'Datadog Core Configurations')
+}
+
+datadog_stat() {
+  dstat
+}
+
+datadog_stat_verbose() {
+  dstat -v
+}
+
+datadog_agent_restart() {
+  echo "Restarting Datadog agent"
+  sudo systemctl restart datadog-agent
+  if [ $? -eq 0 ]; then
+    echo "Agent Restart Successful"
+  else
+    echo "Agent Restart Failed"
+  fi
+}
+
 #PROGRAMMING KEYS
 program () {
 	pushd ~/Programs
@@ -90,7 +121,7 @@ exconf () {
 }
 
 plug () {
-	pushd ~/.local/share/nvim/lazy/ && c $(fd -td -d1 |flist 'Neovim Plugins')
+	pushd ~/.local/share/nvim/site/pack/deps/opt && c $(fd -td -d1 |flist 'Neovim Plugins')
 }
 
 vconf () {
@@ -126,6 +157,11 @@ command_ssh() {
     zellij run --floating --close-on-exit -- ssh n0ko@command
 }
 
+# COMMANDS
+run_btop() {
+    zellij run --floating --close-on-exit -- btop
+}
+
 function leader_programming() {
     local key
     read -sk 1 key
@@ -151,11 +187,24 @@ function leader_ssh() {
     esac
 }
 
+function datadog_agent_stat() {
+    local key
+    read -sk 1 key
+    case $key in
+        (s) datadog_stat ;;
+        (v) datadog_stat_verbose ;;
+    esac
+}
+
 function datadog() {
     local key
     read -sk 1 key
     case $key in
-        (s) ddog_server ;;
+        (d) ddog_server ;;
+        (s) datadog_agent_stat ;;
+        (c) ddog-conf-edit ;;
+        (o) ddog-core-conf-edit ;;
+        (r) datadog_agent_restart ;;
     esac
 }
 
@@ -176,6 +225,7 @@ function leader_config() {
         (p) plug ;;
         (s) codebase2 ;;
         (v) vconf ;;
+        (t) run_btop ;;
         (x) exconf ;;
         (z) zconf ;;
     esac

@@ -8,6 +8,10 @@ alias reload='sudo systemctl daemon-reload'
 alias sys='sudo systemctl'
 alias status='sudo systemctl status'
 
+function stats(){
+  status $(systemctl list-units --type=service | awk '{print $1}'|flist 'Services')
+}
+
 #-----logging-----#
 alias vac='sudo journalctl --vacuum-time=5d'
 

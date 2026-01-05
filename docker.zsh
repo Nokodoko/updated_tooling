@@ -109,3 +109,113 @@ function dpush() {
         docker push n0ko/$1
 
         }
+
+
+#PODMAN
+alias pod='podman'
+alias drun='~/scripts/drun.sh'
+alias drunrm='~/scripts/drunrm.sh'
+alias dexec='~/scripts/dexec.sh'
+alias drm='~/scripts/drm.sh'
+alias ps='docker stop'
+alias darch='docker run -dit archlinux/base'
+alias pp='podman ps'
+alias ppa='podman ps -a'
+alias ppl='podman ps -l'
+alias pnl='podman network ls'
+alias pi='podman images'
+alias pni='podman network inspect'
+alias ppull='podman pull'
+alias ph='podman history'
+alias pt='podman tag'
+alias pbt='podman build -t'
+alias pb='podman build .'
+alias pprune='podman image prune'
+alias psysp='podman system prune -a'
+alias plog='~/scripts/dlog.sh'
+alias pfollow='podman logs -f'
+alias pid='podman login'
+alias pvol-c='podman volume create'
+alias pvol-l='podman volume ls'
+alias pvol-r='podman volume rm'
+alias pvol-i='podman volume inspect'
+alias pvol-p='podman volume prune'
+alias ps='podmanscan'
+alias pswarm='podman swarm init'
+alias pswarmjoin='podman swarm join-token'
+alias pc='podman-compose'
+alias podhttpbin='podman run -p 80:80 kennethreitz/httpbin & disown'
+
+
+#------FUNCTIONS------#
+
+function pstop() {
+  podman stop $(podman ps | fzf | awk '{print $1}')
+}
+
+function pcn() {
+        podman network inspect bridge -f '{{ .Containers }}'
+}
+
+function pipa() {
+        podman inspect -f '{{ .NetworkSettings.IPAddress }}' $1
+}
+
+function pserv() { # $1=serviceName; $2=portNumber; $3=imageName
+        podman service create --name $1 -p $2 $3
+        }
+
+function pic() { # $1= running containerName tw
+        podman inspect $1 | gp Mount -A 10
+
+        }
+
+function pmount() { # $1=containerName; $2=volumeName ; $3=containerPath to mount
+        podman run -d --name $1 --mount source=$2,destination=$3
+
+        }
+
+function pmountsize() { # $1=containerName; $2=volumeName ; $3=containerPath to mount
+        podman run -d --name $1 --mount source=$2,$2-size=$3,destination=$4
+
+        }
+function pcurl() {
+        curl http://localhost:$1
+        }
+
+function pstart() { # $1 = container sha or tag
+        podman restart $1
+        }
+
+#function dremount() {
+#        podman run -d --name $1 mount $2
+#
+#}
+
+function pname() { # $1=name; $2=Image;
+        podman run -dit --name $1 $2
+        }
+
+function pport() { # $1=name; $2=ports; $3 = Image#
+        podman run -dit --name $1 -p $2 $3
+        }
+
+function pshell() { # $1=name; $2=image; $3=shell interpreter
+        podman run -it --name $1 $2 $3
+        }
+
+#function dexec() { # $1=shell interpreter
+#        dp > ~/running_containers
+#        local ID=$(awk 'FNR == 2 {print $1}' ~/running_containers) # ID = Container hash
+#        podman exec -it $ID $1
+#        rm ~/running_containers
+#        }
+
+function pbuild() { # $1=
+        podman build -t n0ko/$1 -f Dockerfile .
+        }
+
+function ppush() {
+        podman push n0ko/$1
+
+        }
