@@ -8,6 +8,15 @@ alias reload='sudo systemctl daemon-reload'
 alias sys='sudo systemctl'
 alias status='sudo systemctl status'
 
+
+alias stopu='systemctl --user stop'
+alias autou='systemctl --user enable'
+alias startu='systemctl --user start'
+alias restartu='systemctl --user restart'
+alias reloadu='systemctl --user daemon-reload'
+alias sysu='systemctl --user'
+alias statusu='systemctl --user status'
+
 function stats(){
   status $(systemctl list-units --type=service | awk '{print $1}'|flist 'Services')
 }
@@ -20,7 +29,7 @@ function jf() {
 }
 
 function j() {
-    sudo journalctl -u $@ 
+    sudo journalctl -u $@
 }
 #------netctl------#
 alias wifi='sudo netctl start'
@@ -66,6 +75,6 @@ function sysl(){
 }
 
 function sys_r(){
-    sudo systemctl reload $1 
+    sudo systemctl reload $1
 }
 

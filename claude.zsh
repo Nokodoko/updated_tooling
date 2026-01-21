@@ -11,3 +11,7 @@ claude_sessions() {
 claude_delete_session() {
     zellij run --floating --close-on-exit -- python /home/n0ko/programming/python_projects/claude_delete_session.py
 }
+
+ai_floater() {
+    zellij run --floating --close-on-exit -- python /home/n0ko/programming/python_projects/claude_sessions_floater.py
+}
