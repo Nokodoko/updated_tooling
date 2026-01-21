@@ -9,21 +9,21 @@ aws_jump () {
 }
 
 
-rag() { #rag        [1/4]
+leader_rag() { #rag        [1/4]
     zellij run --floating --close-on-exit -- rag.lua
 }
 
-wall() { #wallpaper
+leader_wall() { #wallpaper
     zellij run --floating --close-on-exit -- ~/scripts/wall.zsh
 }
 
-nvim_update() { #wallpaper
+leader_nvim_update() { #wallpaper
     zellij run --floating --close-on-exit -- ~/scripts/nvim_update.py
 }
 
 # DATADOG
 ddog-conf-edit () {
-	pushd /etc/datadog-agent/conf.d/
+	pushd ~/Portfolio/ddog_configs/conf.d/
   sudo nvim $(fd -tf -e yaml -e yml -e example| flist_noprev 'Datadog Configurations')
 }
 
@@ -51,12 +51,12 @@ datadog_agent_restart() {
 }
 
 #PROGRAMMING KEYS
-program () {
+leader_program () {
 	pushd ~/Programs
 	cd $(fd -td -d1 | flist )
 
 
-	CURSOR=$#BUFFER 
+	CURSOR=$#BUFFER
 	zle accept-line 2> /dev/null
 }
 
@@ -121,7 +121,7 @@ exconf () {
 }
 
 plug () {
-	pushd ~/.local/share/nvim/site/pack/deps/opt && c $(fd -td -d1 |flist 'Neovim Plugins')
+	pushd ~/.local/share/nvim/lazy/ && c $(fd -td -d1 |flist 'Neovim Plugins')
 }
 
 vconf () {
@@ -144,7 +144,7 @@ echo_scripts () {
         flist 'Ecco Scripts')
 }
 
-gup () {
+leader_gup () {
   zellij run --floating -- gitup.lua ~/Programs/
 }
 
@@ -196,7 +196,7 @@ function datadog_agent_stat() {
     esac
 }
 
-function datadog() {
+function leader_datadog() {
     local key
     read -sk 1 key
     case $key in
@@ -208,7 +208,7 @@ function datadog() {
     esac
 }
 
-function zellagio() {
+function leader_zellij() {
     local key
     read -sk 1 key
     case $key in
@@ -231,20 +231,29 @@ function leader_config() {
     esac
 }
 
+function leader_ai() {
+    local key
+    read -sk 1 key
+    case $key in
+        (s) claude_sessions ;;
+    esac
+}
+
 function leader_key() {
     local key
     read -sk 1 key
     case $key in
+        (a) leader_ai ;;
         (c) leader_config ;;
-        (d) datadog ;;
-        (g) gup ;;
-        (n) nvim_update ;;
-        (o) program ;;
+        (d) leader_datadog ;;
+        (g) leader_gup ;;
+        (n) leader_nvim_update ;;
+        (o) leader_program ;;
         (p) leader_programming ;;
-        (r) rag ;;
-        (s) leader_ssh;;
-        (w) wall ;;
-        (z) zellagio ;;
+        (r) leader_rag ;;
+        (s) leader_ssh ;;
+        (w) leader_wall ;;
+        (z) leader_zellij ;;
     esac
 }
 

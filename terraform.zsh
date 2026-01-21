@@ -1,6 +1,7 @@
 export TF_VAR_avail_zone="us-east-1a"
 
 alias tf='TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform'
+alias tfv='TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform validate'
 alias tfi='TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform init'
 alias tfir='TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform init -reconfigure'
 alias tfs='TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform state'
@@ -13,21 +14,21 @@ alias tfo='terraform output'
 alias tfsl='terraform state list'
 
 function tfpv() {
-    TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform plan -lock=false -var-file $1 
-} 
+    TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform plan -lock=false -var-file $1
+}
 
 function tfpt() {
     TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform plan -target=$1
-} 
+}
 
 function tfat(){
     TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform apply -auto-approve -target=$1
-} 
+}
 
 #function tfat(){
 #    TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform apply $1 -auto-approve -target=$1
-#} 
+#}
 
 function tfdt(){
     TF_LOG=DEBUG OCI_GO_SDK_DEBUG=v terraform destroy -auto-approve -target=$1
-} 
+}
