@@ -1,4 +1,5 @@
 alias c='claude'
-# dangerously-skip-permissions
+alias cs='claude --dangerously-skip-permissions'
+alias csr='claude --dangerously-skip-permissions --resume'
 # --resume
 # /security-review
