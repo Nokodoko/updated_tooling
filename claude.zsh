@@ -5,7 +5,7 @@ alias csr='claude --dangerously-skip-permissions --resume'
 # /security-review
 
 claude_sessions() {
-    zellij run --floating --close-on-exit -- python /home/n0ko/programming/python_projects/claude_sessions.py
+    python /home/n0ko/programming/python_projects/claude_sessions.py
 }
 
 claude_delete_session() {
