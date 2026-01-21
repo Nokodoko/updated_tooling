@@ -235,6 +235,7 @@ function leader_ai() {
     local key
     read -sk 1 key
     case $key in
+        (d) claude_delete_session ;;
         (s) claude_sessions ;;
     esac
 }
