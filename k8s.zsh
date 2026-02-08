@@ -1,4 +1,4 @@
-alias k='kubectl'
+alias k='kubecolor'
 alias kx='kubectx'
 alias kstage='kubectx staging'
 alias kserv='kubectx services'
@@ -9,6 +9,7 @@ alias kns='kubens'
 alias kge='kubectl get events'
 alias ingLog='~/scripts/ingressLogs.sh'
 alias ktx='kubectx'
+alias mk='minikube'
 
 #KREW
 alias kks='kubectl krew search | fzf --reverse'

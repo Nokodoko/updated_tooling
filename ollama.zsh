@@ -4,3 +4,11 @@ alias ol70='ollama run llama2:70b'
 alias ol7='ollama run llama2:7b'
 alias oll='ollama run llama2:latest'
 alias olu='ollama run llama2-uncensored:latest'
+
+alias ol='ollama ls'
+
+olr(){
+  ollama run $(ollama ls | flist 'AIs'| awk '{print $1}')
+}
+
+

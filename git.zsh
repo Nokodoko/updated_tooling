@@ -29,7 +29,7 @@ alias iv='sxiv'
 alias reset='make clean && rm -f config.h && git reset --hard origin/master'
 alias progRefresh='~/scripts/progRefresh.sh'
 
-alias g='gh'
+# alias g='gh'
 
 #------FUNCTIONS------#
 function flisty() {
@@ -44,8 +44,9 @@ function gremote(){
     git remote add origin git@github.com:Nokodoko/$1.git
 }
 
+# git push --set-upstream origin $1
 function gpush() {
-    git push --set-upstream origin $1
+    git push --set-upstream origin $(git branch --show-current)
 }
 
 function gco() {
@@ -89,6 +90,9 @@ function gcs(){
   git clone $(gsearch $1)
 }
 
+function gitIssues() {
+  gh issue list | grep "Git Issues" | awk '{print $1}'
+}
 
 function ghi (){
 gh issue view $(gh issue list | fzf | awk '{print $1}') --comments

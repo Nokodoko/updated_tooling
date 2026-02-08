@@ -3,6 +3,12 @@ function flist() {
     ARG=$@
     fzf --layout reverse --border --border-label="$ARG" --preview 'bat --style=numbers --color=always --line-range :500 {}'
 }
+
+function flist_noprev() {
+    ARG=$@
+    fzf --layout reverse --border --border-label="$ARG"
+}
+
 alias exe='c /usr/local/bin'
 alias down='cl ~/Downloads'
 alias resume='c ~/Downloads/resumes'

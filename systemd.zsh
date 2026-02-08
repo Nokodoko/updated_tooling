@@ -5,8 +5,20 @@ alias auto='sudo systemctl enable'
 alias start='sudo systemctl start'
 alias restart='sudo systemctl restart'
 alias reload='sudo systemctl daemon-reload'
+alias stopu='systemctl --user stop'
+alias autou='systemctl --user enable'
+alias startu='systemctl --user start'
+alias restartu='systemctl --user restart'
+alias statusu='systemctl --user status'
+alias reloadu='systemctl --user daemon-reload'
+alias enableu='systemctl --user enable'
+alias reload='sudo systemctl daemon-reload'
 alias sys='sudo systemctl'
 alias status='sudo systemctl status'
+
+function stats(){
+  status $(systemctl list-units --type=service | awk '{print $1}'|flist 'Services')
+}
 
 #-----logging-----#
 alias vac='sudo journalctl --vacuum-time=5d'
@@ -16,7 +28,7 @@ function jf() {
 }
 
 function j() {
-    sudo journalctl -u $@ 
+    sudo journalctl -u $@
 }
 #------netctl------#
 alias wifi='sudo netctl start'
@@ -46,6 +58,8 @@ alias netctlon='sudo systemctl start netctl'
 alias eth='sudo systemctl start dhcpcd'
 alias etho='sudo systemctl stop dhcpcd'
 
+alias bios='systemctl reboot --firmware-setup'
+
 #------functions------#
 function syst(){
     systemctl list-unit-files --type=target
@@ -62,6 +76,6 @@ function sysl(){
 }
 
 function sys_r(){
-    sudo systemctl reload $1 
+    sudo systemctl reload $1
 }
 

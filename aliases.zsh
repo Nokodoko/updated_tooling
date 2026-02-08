@@ -4,7 +4,8 @@ source /usr/share/fzf/completion.zsh
 #alias zip='tar -xf'
 alias Q='cd ..'
 alias ac='arp -a'
-alias ai='sgpt'
+alias oai='sgpt'
+alias ai='claude -p'
 alias ar='arandr'
 alias as='arp-scan --localnet'
 alias btar='bsdtar -xpf'
@@ -41,7 +42,7 @@ alias sl='c ~/n0koSuckless/slstatus'
 alias socket='zmodload zsh/net/tcp'
 alias top='bptop'
 alias v='nvim'
-alias vb='nvim ~/.zshenv'
+# alias vb='nvim ~/.zshenv'
 alias vbox='virtualbox'
 alias vr='virsh'
 alias w='which'
@@ -60,11 +61,11 @@ alias makeit='makepkg -si'
 alias smci='sudo make clean install -j$(nproc)'
 
 #------FUNCTION------#
-function c(){
-    cd $1 
-    nvim $(lister.sh)
-    #colorls --git-status
-}
+# function c(){
+#     cd $1
+#     nvim $(lister.sh)
+#     #colorls --git-status
+# }
 
 function man() {
   /usr/bin/man $* | \
@@ -81,7 +82,7 @@ function mkc(){
 function nsx(){
     nsxiv $@ &
     disown nsxiv
-} 
+}
 
 function mkn(){
     mknod /dev/$1 $2 $3 $4
