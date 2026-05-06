@@ -237,6 +237,7 @@ function leader_ai() {
     read -sk 1 key
     case $key in
         (a) claude_sessions_sidecar ;;
+        (b) claude_sessions_business ;;
         (d) claude_delete_session ;;
         (f) ai_floater ;;
         (s) claude_sessions ;;

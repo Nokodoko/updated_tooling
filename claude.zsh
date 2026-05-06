@@ -9,10 +9,19 @@
 # Use 'cf' (claude-full) to launch with all tools and no restrictions.
 
 alias c='claude --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
-alias cs='claude --dangerously-skip-permissions --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
-alias ccc='claude --dangerously-skip-permissions --chrome'
-alias csr='claude --resume --dangerously-skip-permissions --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
+alias cs='claude --permission-mode bypassPermissions --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
+alias csb='CLAUDE_CONFIG_DIR=$HOME/.claude-business claude --permission-mode bypassPermissions --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
+alias ccc='claude --permission-mode bypassPermissions --chrome'
+alias csr='claude --resume --permission-mode bypassPermissions --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
 alias cf='claude'  # claude-full: all tools, no restrictions
+
+# claude-business: isolates entire config dir (creds, projects, memory) for the business OAuth token.
+# First run: `cb` then `/login` to populate ~/.claude-business/.credentials.json.
+# Personal `c` / `cs` / etc. continue to use ~/.claude/ untouched.
+alias cb='CLAUDE_CONFIG_DIR=$HOME/.claude-business claude --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
+alias cbs='CLAUDE_CONFIG_DIR=$HOME/.claude-business claude --permission-mode bypassPermissions --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
+alias ccb='CLAUDE_CONFIG_DIR=$HOME/.claude-business claude --permission-mode bypassPermissions --chrome'
+alias csrb='CLAUDE_CONFIG_DIR=$HOME/.claude-business claude --resume --permission-mode bypassPermissions --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
 
 function ccp() {
   claude -p --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit "$@"
@@ -20,6 +29,10 @@ function ccp() {
 
 function claude_sessions() {
     python ~/programming/python_projects/claude_sessions.py
+}
+
+function claude_sessions_business() {
+    python ~/programming/python_projects/claude_sessions.py --business
 }
 
 function claude_sessions_sidecar() {
@@ -44,7 +57,23 @@ function cq() {
     claude --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit "$prompt"
 }
 
+# claude with model selector via flisty
+function csm() {
+    local model
+    model=$(printf '%s\n' \
+        claude-opus-4-6 \
+        claude-sonnet-4-6 \
+        claude-haiku-4-5-20251001 \
+        gemini-2.5-pro \
+        gemini-2.5-flash \
+        | flisty 'Claude Code Models')
+    [[ -z "$model" ]] && return 1
+    claude --permission-mode bypassPermissions --no-chrome \
+        --disallowedTools WebSearch WebFetch NotebookEdit \
+        --model "$model"
+}
+
 function aid(){
     local prompt="/dir_instructions"
-    claude -p --verbose --dangerously-skip-permissions "$prompt"
+    claude -p --verbose --permission-mode bypassPermissions "$prompt"
 }
