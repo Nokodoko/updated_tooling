@@ -77,3 +77,47 @@ function aid(){
     local prompt="/dir_instructions"
     claude -p --verbose --permission-mode bypassPermissions "$prompt"
 }
+
+# cms — select model engine + model via terminal lister, then exec claude against it
+function cms() {
+  emulate -L zsh
+  local lister engine model key
+  local -a engines=( ollama-monty )
+  local -a models
+
+  for cand in tv fzf gum; do
+    command -v $cand >/dev/null && lister=$cand && break
+  done
+  [[ -z $lister ]] && { print -u2 "cms: need tv, fzf, or gum"; return 127 }
+
+  _cms_pick() {  # $1=label, rest=items; prints chosen item or empty on cancel
+    local label=$1; shift
+    case $lister in
+      tv)  tv --inline --no-preview --source-command "printf '%s\n' $*" ;;
+      fzf) print -l -- "$@" | fzf --prompt "$label: " ;;
+      gum) gum choose "$@" ;;
+    esac
+  }
+
+  engine=$(_cms_pick engine $engines) || return 130
+  [[ -z $engine ]] && return 130
+
+  case $engine in
+    ollama-monty)
+      key=$(<~/.config/litellm/.master_key)
+      curl -fs --max-time 2 http://127.0.0.1:4000/health/liveliness >/dev/null \
+        || { print -u2 "cms: litellm proxy at :4000 unreachable (try: systemctl --user start litellm)"; return 5 }
+      models=( $(curl -fs --max-time 3 http://monty:11434/api/tags 2>/dev/null \
+        | /usr/bin/jq -r '.models[].name' 2>/dev/null \
+        | /usr/bin/grep -viE '^(mxbai-embed|nomic-embed|embeddinggemma|all-minilm)|-tools(:|$)' \
+        | /usr/bin/sort -u) )
+      [[ ${#models} -eq 0 ]] && { print -u2 "cms: monty:11434 unreachable or returned no models"; return 5 }
+      model=$(_cms_pick model $models) || return 130
+      [[ -z $model ]] && return 130
+      export ANTHROPIC_BASE_URL=http://127.0.0.1:4000
+      export ANTHROPIC_API_KEY=$key
+      export ANTHROPIC_MODEL=$model
+      exec claude --model $model --permission-mode bypassPermissions --append-system-prompt "$(cat ~/.config/cms/append-system-prompt.md 2>/dev/null)" "$@"
+      ;;
+  esac
+}
