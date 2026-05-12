@@ -9,7 +9,7 @@
 # Use 'cf' (claude-full) to launch with all tools and no restrictions.
 
 alias c='claude --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
-alias cs='claude --permission-mode bypassPermissions --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
+alias cs='claude --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
 alias csb='CLAUDE_CONFIG_DIR=$HOME/.claude-business claude --permission-mode bypassPermissions --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
 alias ccc='claude --permission-mode bypassPermissions --chrome'
 alias csr='claude --resume --permission-mode bypassPermissions --no-chrome --disallowedTools WebSearch WebFetch NotebookEdit'
